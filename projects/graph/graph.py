@@ -7,35 +7,70 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
-    def add_vertex(self, vertex):
+    def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
-    def bft(self, starting_vertex):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise KeyError("That vertex does not exist")
+            
+
+        
+    def bft(self, starting_vertex_id):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft(self, starting_vertex):
+        q = Queue()
+        q.enqueue(starting_vertex_id)
+        visited = set()
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                print(v)
+                visited.add(v)
+                for next_vertex in self.vertices[v]:
+                    q.enqueue(next_vertex)
+    def dft(self, starting_vertex_id):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+        s = Stack()
+        s.push(starting_vertex_id)
+        visited = set()
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+               print(v)
+               visited.add(v) 
+               for next_vertex in self.vertices[v]:
+                    s.push(next_vertex)
+
+    def dft_recursive(self, starting_vertex,visited = None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        
+
+        if visited is None:
+            visited = set()
+        visited.add(starting_vertex)
+        
+        for v in self.vertices[starting_vertex]:
+            if v not in visited:
+                self.dft_recursive(v,visited)
+
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
